@@ -1,0 +1,100 @@
+body {
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff0f6; /* Romantic soft pink background */
+}
+
+#chat-container {
+    background: #fff; /* White background for the chat container */
+    padding: 20px;
+    border-radius: 12px; /* Rounded corners for a soft look */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+    border: 2px solid #ffccd5; /* Soft pink border */
+}
+
+h1 {
+    font-size: 2em;
+    color: #e75480; /* Romantic pink color for the title */
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 1em;
+    color: #e75480; /* Matching label color */
+    margin-top: 10px;
+    display: block;
+}
+
+select, input[type="text"], input[type="submit"] {
+    width: calc(100% - 40px);
+    padding: 5px;
+    border: 1px solid #ffccd5;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-family: 'Georgia', serif;
+    color: #e75480; /* Matching color for input text */
+    background-color: #fffaf0; /* Light background for inputs */
+}
+
+input[type="submit"] {
+    background-color: #e75480; /* Matching button color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #d64571; /* Darker pink on hover */
+}
+
+#chat-history {
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ffccd5;
+    border-radius: 8px;
+    background-color: #ffe4e1; /* Very light pink for chat history background */
+    text-align: left;
+    font-family: 'Georgia', serif;
+    color: #333;
+}
+
+#chat-input {
+    width: calc(100% - 40px);
+    padding: 10px;
+    border: 1px solid #ffccd5;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-family: 'Georgia', serif;
+    color: #e75480; /* Matching color for input text */
+    background-color: #fffaf0; /* Light background for inputs */
+}
+
+#send-button {
+    padding: 10px 20px;
+    background-color: #e75480; /* Romantic pink for the button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Georgia', serif;
+}
+
+#send-button:hover {
+    background-color: #d64571; /* Slightly darker pink on hover */
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    select,
+    textarea,
+    input {
+      font-size: 16px;
+    }
+  }
+  

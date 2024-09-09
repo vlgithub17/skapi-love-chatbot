@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/skapi-js@latest/dist/skapi.js"></script>
+    <script>
+        const skapi = new Skapi("ap22MXeGjqdJjon79Sdw", "a4dd8739-ceac-4fec-b708-8019b3cf131a");
+    </script>
+    
+
+</head>
+<body>
+
+    <div id="chat-container">
+        <h1>Love Chat</h1>
+        <label for="gender">What are your pronouns?</label>
+        <select id="user" onchange="checkCustomGender()">
+            <option value="person">Select Gender</option>
+            <option value="male">He/him</option>
+            <option value="female">She/her</option>
+            <option value="non-binary">They/Their</option>
+            <option value="other">Other</option>
+        </select>
+        <input type="text" id="custom-gender" placeholder="Please specify..." hidden>
+
+        <label for="gender">What are your partner's pronoun?</label>
+        <select id="partner" onchange="checkCustomGender()">
+            <option value="person">Select Gender</option>
+            <option value="male">He/him</option>
+            <option value="female">She/her</option>
+            <option value="non-binary">They/Their</option>
+            <option value="other">Other</option>
+        </select>
+        <input type="text" id="custom-partner" placeholder="Please specify..." hidden>
+
+        <br>
+
+        <div id="chat-history"></div>
+
+        <form onsubmit="sendMessage(event)">
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+    
+    <script>
+        const chatHistory = document.getElementById('chat-history');
+        const chatInput = document.getElementById('chat-input')
+        let user = document.getElementById('user').value;
+        let partner = document.getElementById('partner').value;
+
+        function checkCustomGender(){
+            chatHistory.innerHTML = '';
+            const user = document.getElementById('user').value;
+            const partner = document.getElementById('partner').value;
+            const customGenderInput = document.getElementById('custom-gender');
+            const customPartnerInput = document.getElementById('custom-partner');
+
+            if (user === 'other'){
+                customGenderInput.hidden = false;
+            } else {
+                customGenderInput.hidden = true;
+            }
+            if (partner === 'other'){
+                customPartnerInput.hidden = false;
+            } else {
+                customPartnerInput.hidden = true;
+            }
+        }
+
+        function sendMessage(event){
+            event.preventDefault();
+
+            let user = document.getElementById('user').value;
+            let partner = document.getElementById('partner').value;
+
+            if(user==='other'){
+                user = document.getElementById('custom-gender').value.trim() || 'person'
+            }
+            if(partner==='other'){
+                partner = document.getElementById('custom-partner').value.trim() || 'person'
+            }
+
+            const userInput = chatInput.value.trim();
+            if (userInput === '') return;
+
+            chatHistory.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`
+            chatInput.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            skapi.clientSecretRequest(
+                {
+                    clientSecretName: 'openai',
+                    url: 'https://api.openai.com/v1/chat/completions',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer $CLIENT_SECRET'
+                    },
+                    data:{
+                        model:'gpt-4',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: `I am a ${user}. You are a ${partner}. We are a couple and we are in love. Always reply in a lovely and cute way.`
+                            },
+                            {
+                                role: 'user',
+                                content: userInput
+                            }
+                        ]
+                    }
+                }
+            ).then(data => {
+                const botResponse = data.choices[0].message.content;
+                chatHistory.innerHTML += `<p><strong>Bae:</strong> ${botResponse}</p>`
+                chatHistory.scrollTop = chatHistory.scrollHeight; 
+            }).catch(error => {
+                alert('There was a problem.')
+                console.log(error)
+            })
+        }
+    </script>
+</body>
+</html>
